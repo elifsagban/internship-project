@@ -1,0 +1,24 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>
+      Create new user!
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-card>
+      <ion-icon name="person-add" size="large" id= "user"></ion-icon>
+    <ion-item>
+      <ion-input [(ngModel)]="uname" placeholder= "Enter your username "></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-input [(ngModel)]="password" placeholder= "Enter your password " type="password"></ion-input>
+    </ion-item>
+  <ion-button (click)= "saveData()" expand= "block">Save</ion-button>
+  <ion-button (click)= "loadData()" expand= "block">Load</ion-button>
+
+</ion-card>
+
+
+</ion-content>

@@ -1,0 +1,15 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>
+      User's Data
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-list>
+    <ion-item *ngFor="let user of users, let i = index">{{user.username}} - {{user.password}}
+      <ion-button expand ="block" id="del" (click)="deleteData(i)">Delete</ion-button>
+    </ion-item>
+  </ion-list>
+</ion-content>

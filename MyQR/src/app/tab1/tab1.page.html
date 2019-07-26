@@ -1,0 +1,23 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>
+      Bloggy
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+    <ion-card class="welcome-card">
+      <img *ngFor="let img of images, let i = index" src="{{img.url}}" alt="" />
+      <ion-card-header>
+        <ion-card-subtitle>Get Started</ion-card-subtitle>
+        <ion-card-title >Welcome! {{ uname }} </ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <p></p>
+      </ion-card-content>
+    </ion-card>
+    <ion-list lines="none">
+    </ion-list>
+    <ion-button expand ="block"  (click) = "openScanner()"> Upload a photo</ion-button>
+</ion-content>
