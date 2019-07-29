@@ -4,15 +4,6 @@ import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 const routes: Routes = [
   {
     path: '',
-    redirectTo: 'main',
-    pathMatch: 'full'
-  },
-  {
-    path: 'main',
-    loadChildren: './main/main.module#MainPageModule'
-  },
-  {
-    path: '',
     redirectTo: 'login',
     pathMatch: 'full'
   },
@@ -20,7 +11,20 @@ const routes: Routes = [
     path: 'login',
     loadChildren: './login/login.module#LoginPageModule'
   },
-  { path: '', loadChildren: './tabs/tabs.module#TabsPageModule' }
+
+  {
+    path: 'tab1',
+    loadChildren: './tab1/tab1.module#Tab1PageModule'
+  },
+
+  {
+    path: 'tab2',
+    loadChildren: './tab2/tab2.module#Tab2PageModule'
+  },
+  { path: 'tabs',
+    loadChildren: './tabs/tabs.module#TabsPageModule'
+  },
+
 ];
 @NgModule({
   imports: [

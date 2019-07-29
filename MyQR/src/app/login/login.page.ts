@@ -1,8 +1,6 @@
 import { Component } from '@angular/core';
 import {IonicStorageModule, Storage} from '@ionic/storage';
 import { NavController, AlertController } from '@ionic/angular';
-import { MainPage } from '../main/main.page';
-import { element } from '@angular/core/src/render3';
 
 @Component({
   selector: 'app-login',
@@ -14,33 +12,52 @@ export class LoginPage {
 
   uname: any;
   password: any;
-  users: Array<{username: any, password: any}> = [];
+  name: any;
+  lastname: any;
+  users: Array<{username: any, password: any, name: any, lastname: any}> = [];
+  profile: Array<{}> = [];
   currentUser: any;
 
 
   constructor(
     private storage: Storage,
     public alertController: AlertController,
-    public navController: NavController
+    public navController: NavController,
   ) {
 
-      this.storage.get( 'users' ).then((val) => {
-          if (val) {
-            this.users = val;
-          } else {
-            this.users = [];
-          }
-      });
-      this.storage.get( 'currentUser' ).then((val) => {
+    /*
+    this.storage.get( 'profile' ).then((val) => {
+      if (val) {
+        this.profile = val;
+      } else {
+        this.profile = [];
+      }
+  });
+
+  */
+
+    this.storage.get( 'users' ).then((val) => {
         if (val) {
-          this.currentUser = val;
+          this.users = val;
         } else {
-          this.currentUser = {
-            username: false,
-            password: false
-          };
+          this.users = [];
         }
     });
+
+    /*
+    this.storage.get( 'currentUser' ).then((val) => {
+      if (val) {
+        this.currentUser = val;
+      } else {
+        this.currentUser = {
+          username: false,
+          password: false,
+          name: false,
+          lastname: false
+        };
+      }
+    });
+    */
   }
 
 
@@ -51,14 +68,16 @@ export class LoginPage {
         checkUser = true;
         this.currentUser = {
           username: element.username,
-          password: element.password
-        }
+          password: element.password,
+          name: element.name,
+          lastname: element.lastname
+        };
       }
     });
 
     if (checkUser) {
         this.storage.set('currentUser', this.currentUser );
-        this.navController.navigateRoot('main');
+        this.navController.navigateRoot('tab1');
       } else {
          this.Warning('Warning!', 'Pleas register!', '');
     }
@@ -71,14 +90,24 @@ export class LoginPage {
       header: 'Please Register.',
       inputs: [
         {
+          name: 'name',
+          type: 'text',
+          placeholder: 'Enter your name:'
+        },
+        {
+          name: 'lastname',
+          type: 'text',
+          placeholder: 'Enter your last name:'
+        },
+        {
           name: 'username',
           type: 'text',
-          placeholder: 'Create the username'
+          placeholder: 'Create your username:'
         },
         {
           name: 'password',
           type: 'password',
-          placeholder: 'Create a password'
+          placeholder: 'Create a password:'
         },
       ],
       buttons: [
@@ -92,11 +121,18 @@ export class LoginPage {
         }, {
           text: 'Ok',
           handler: (data)  => {
-
             const newUserName = data.username.replace(' ', '');
             const newPassword = data.password.replace(' ', '');
-
-
+            /*
+            this.profile.push({
+              name: this.name,
+              lastname: this.lastname
+            });
+            this.storage.set('profile', this.profile);
+            this.storage.set(this.name, this.name);
+            this.storage.set(this.lastname, this.lastname);
+            this.storage.set('users', this.users);
+            */
             if (newUserName === '' && newPassword === '') {
               this.register();
               this.Warning('Warning', 'Please enter username ', 'Please fill the blanks. ');
@@ -113,7 +149,9 @@ export class LoginPage {
               } else {
                 this.users.push({
                   username: data.username,
-                  password: data.password
+                  password: data.password,
+                  name: data.name,
+                  lastname: data.lastname
                 });
                 this.storage.set('users', this.users);
                 this.Warning('Success!', 'Please now Login!', '');
@@ -128,7 +166,7 @@ export class LoginPage {
   }
 
 
-  async Warning(header,subHeader, message) {
+  async Warning(header, subHeader, message) {
     const alert = await this.alertController.create({
       header,
       subHeader,
