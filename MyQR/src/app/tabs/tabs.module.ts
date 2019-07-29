@@ -16,7 +16,6 @@ import { LoginPage } from '../login/login.page';
     TabsPageRoutingModule
   ],
   declarations: [
-    LoginPage,
     TabsPage
   ]
 })
