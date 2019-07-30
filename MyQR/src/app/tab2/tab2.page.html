@@ -1,24 +1,43 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>
+    <ion-title id="title">
       Profile
+      <ion-icon name="people" size="large"></ion-icon>
     </ion-title>
+    <ion-button (click) = "main()" color="dark" id="icon-button"><ion-icon name="apps" ></ion-icon></ion-button>
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
-  <ion-card>
+<ion-content class="background">
+  <div id="card">
+  <ion-card color="dark">
       <ion-card-header>
-          <ion-card-subtitle>{{(currentUser)?currentUser.name+' '+currentUser.lastname:''}}</ion-card-subtitle>
-          <ion-card-title>{{(currentUser)?currentUser.username:''}}</ion-card-title>
+        Name: 
+          <ion-card-title>{{(currentUser)?currentUser.name:''}}</ion-card-title>
         </ion-card-header>
-      
-        <ion-card-content>
-          Keep close to Nature's heart... and break clear away, once in awhile,
-          and climb a mountain or spend a week in the woods. Wash your spirit clean.
-        </ion-card-content>
+
+</ion-card >
+<ion-card color="dark">
+    <ion-card-header>
+      Last Name: 
+        <ion-card-title>{{(currentUser)?currentUser.lastname:''}}</ion-card-title>
+      </ion-card-header>
 
 </ion-card>
+<ion-card color="dark">
+    <ion-card-header>
+      Username: 
+        <ion-card-title>{{(currentUser)?currentUser.username:''}}</ion-card-title>
+      </ion-card-header>
 
+</ion-card>
+<ion-card color="dark">
+    <ion-card-header>
+      Password: 
+        <ion-card-title>{{(currentUser)?currentUser.password:''}}</ion-card-title>
+      </ion-card-header>
+
+</ion-card>
+</div>
 
 </ion-content>

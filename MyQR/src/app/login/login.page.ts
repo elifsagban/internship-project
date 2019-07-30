@@ -79,7 +79,7 @@ export class LoginPage {
         this.storage.set('currentUser', this.currentUser );
         this.navController.navigateRoot('tab1');
       } else {
-         this.Warning('Warning!', 'Pleas register!', '');
+         this.Warning('Warning!', 'Please register!', '');
     }
   }
 

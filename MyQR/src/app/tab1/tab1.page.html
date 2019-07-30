@@ -1,18 +1,23 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>
+    <ion-title id="title">
       Main Page
-      <ion-button (click) = "logout()" > Logout</ion-button>
+      <ion-icon name="apps" size="large"></ion-icon>
     </ion-title>
+    <ion-button (click) = "logout()" color="dark" id="button"><ion-icon name="log-out" ></ion-icon></ion-button>
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
-        <ion-list lines="none">
-            <ion-button expand ="block"  (click) = "openScanner()"> Read QR</ion-button>
-            <ion-button expand ="block" (click) = "generateQR()"  > Generate QR</ion-button>
-            <ion-button expand ="block" (click) = "myProfile()" > My Profile</ion-button>
-            <ion-button expand ="block"  > My QRs</ion-button>
-    </ion-list>
-
+<ion-content class="background">
+    <div id="card">
+  <ion-card  color="none">
+        
+            <ion-button expand ="block"  (click) = "openScanner()" color="dark"> Read QR</ion-button>
+            <ion-button expand ="block" (click) = "generateQR()"  color="dark" > Generate QR</ion-button>
+            <ion-button expand ="block" (click) = "myProfile()" color="dark"> My Profile</ion-button>
+            <ion-button expand ="block"  color="dark"> My QRs</ion-button>
+    
+  </ion-card>
+</div>
 </ion-content>
+

@@ -1,13 +1,16 @@
 <ion-header>
-    <ion-toolbar>
-      <ion-title><ion-icon name="person-add" size="large" id= "user"></ion-icon>
-        Login
+    <ion-toolbar id="toolbar">
+        
+      <ion-title id="title" >
+          MyQR<ion-icon name="qr-scanner" size="large" id= "user"></ion-icon>
       </ion-title>
     </ion-toolbar>
   </ion-header>
   
-  <ion-content>
-    <ion-card id= "login">
+  <ion-content class="login">
+      <img src="../../assets/img/login.png" alt="profile icon" id="img-profile"/> 
+          <div id="login">
+    <ion-card >
         
       <ion-item>
         <ion-input [(ngModel)]="uname" placeholder= "Enter your username "></ion-input>
@@ -15,11 +18,11 @@
       <ion-item>
         <ion-input [(ngModel)]="password" placeholder= "Enter your password " type="password"></ion-input>
       </ion-item>
-    <ion-button (click)= "login()" expand= "block">Login</ion-button>
-    <ion-button (click)= "register()" expand= "block">Register</ion-button>
+    <ion-button (click)= "login()" expand= "block" color="dark">Login</ion-button>
+    <ion-button (click)= "register()" expand= "block" color="dark">Register</ion-button>
   
   </ion-card>
-  
+</div>
   
   </ion-content>
   
