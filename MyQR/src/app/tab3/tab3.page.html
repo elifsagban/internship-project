@@ -1,15 +1,22 @@
 <ion-header>
   <ion-toolbar>
     <ion-title>
-      User's Data
+      My QR's
     </ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
+  <p>Generated  QR's: </p>
   <ion-list>
-    <ion-item *ngFor="let user of users, let i = index">{{user.username}} - {{user.password}}
+    <ion-item *ngFor="let data of myData, let i = index">{{data.codes}} 
       <ion-button expand ="block" id="del" (click)="deleteData(i)">Delete</ion-button>
+    </ion-item>
+  </ion-list>
+  <p>Scanned  QR's: </p>
+  <ion-list>
+    <ion-item *ngFor="let code of barcodes, let i = index">{{code.code}} + {{code.description}}
+      <ion-button expand ="block" id="del" (click)="deleteBarcode(i)">Delete</ion-button>
     </ion-item>
   </ion-list>
 </ion-content>
