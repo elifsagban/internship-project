@@ -7,6 +7,7 @@ import { Base64ToGallery } from '@ionic-native/base64-to-gallery/ngx';
 import { ImagePicker } from '@ionic-native/image-picker/ngx';
 import { BarcodeScanner } from '@ionic-native/barcode-scanner/ngx';
 import { ReplaceSource } from 'webpack-sources';
+import { Url } from 'url';
 
 
 
@@ -31,6 +32,7 @@ export class Tab1Page {
 
   images: Array<{url: any}> = [];
   currentUser: any;
+  message: Url;
 
   constructor(
     private barcodeScanner: BarcodeScanner,
@@ -75,9 +77,10 @@ export class Tab1Page {
       await alert.present();
   }
 
-  async presentAlertPrompt(header) {
+  async presentAlertPrompt(header, message) {
     const alert = await this.alertController.create({
       header,
+      message,
       inputs: [
         {
           name: 'description',
@@ -109,6 +112,9 @@ export class Tab1Page {
   }
   myProfile() {
     this.navController.navigateRoot('tab2');
+  }
+  myQRs() {
+    this.navController.navigateRoot('tab3');
   }
   async generateQR() {
     const alert = await this.alertController.create({
@@ -158,7 +164,7 @@ export class Tab1Page {
           ['OK']
         );
       } else {
-          this.presentAlertPrompt('Your QrCode url: ' + barcodeData.text);
+          this.presentAlertPrompt('Your QrCode url: ', barcodeData.text);
       }
     }).catch(err => {
         console.log('Error', err);

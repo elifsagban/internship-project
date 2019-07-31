@@ -1,3 +1,22 @@
-ion-icon.user {
-    font-size: 200px;
+#title{
+    margin:auto;
+    text-align: center;
+    flex:1;
 }
+#card{
+    padding-top: 30%;
+}
+#icon-button{
+  position: absolute;
+  top:50%;
+  right: 0;
+  transform: translateY(-50%);
+}
+.background{
+    --background: none;
+    background-image: url('../../assets/img/img2.png');
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: cover;
+     
+  }

@@ -21,7 +21,9 @@ export class Tab2Page {
 
 
 
-  constructor(private storage: Storage, public alertController: AlertController) {
+  constructor(private storage: Storage, 
+              public alertController: AlertController,
+              public navController: NavController) {
         this.currentUser = false ;
         /*
         this.storage.get( 'users' ).then((val) => {
@@ -47,6 +49,9 @@ export class Tab2Page {
             this.currentUser = false;
           }
         });
+    }
+    main() {
+      this.navController.navigateRoot('tab1');
     }
   
     async saveData() {

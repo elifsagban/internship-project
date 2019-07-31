@@ -1,0 +1,33 @@
+#login {
+padding-top: 10px;
+}
+
+#user{
+  padding-top: 10px;
+  
+}
+#title{
+    margin:auto;
+    text-align: center;
+    flex:1;
+
+
+}
+#img-profile{
+    padding-top: 20px;
+    width:350px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+
+}
+.login{
+    --background: none;
+    background-image: url('../../assets/img/img2.png');
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: cover;
+     
+}
+#toolbar{
+}
