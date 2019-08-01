@@ -28,7 +28,7 @@ export class Tab1Page {
   myEncodedData: Array<{}> = [];
   users: Array<{username: any, password: any}> = [];
   barcodes: Array<{code: any, description: any}> = [];
-  myData: Array<{codes: any}> = [];
+  myData: Array<{type: any, extention: any}> = [];
 
   images: Array<{url: any}> = [];
   currentUser: any;
@@ -82,6 +82,7 @@ export class Tab1Page {
       header,
       message,
       inputs: [
+        
         {
           name: 'description',
           type: 'text',
@@ -107,6 +108,7 @@ export class Tab1Page {
 
     await alert.present();
   }
+  
   logout() {
     this.navController.navigateRoot('login');
   }
@@ -116,14 +118,48 @@ export class Tab1Page {
   myQRs() {
     this.navController.navigateRoot('tab3');
   }
-  async generateQR() {
+  async generateQR(type) {
     const alert = await this.alertController.create({
       header: 'Create your personalize QR!',
       inputs: [
         {
-          name: 'qrData',
-          type: 'text',
-          placeholder: 'Please enter the value; URL, text '
+          name: 'insta',
+          type: 'radio',
+          label: 'www.instagram.com',
+          value: 'www.instagram.com',
+          checked: type === 'insta'
+
+        },
+        {
+          name: 'face',
+          type: 'radio',
+          value: 'www.facebook.com',
+          label: 'www.facebook.com',
+          checked: type === 'face'
+
+        },
+        {
+          name: 'youtube',
+          type: 'radio',
+          value: 'www.youtube.com',
+          label: 'www.youtube.com',
+          checked: type === 'youtube'
+
+        },
+        {
+          name: 'twitter',
+          type: 'radio',
+          value: 'www.twitter.com',
+          label: 'www.twitter.com',
+          checked: type === 'twitter'
+
+        },
+        {
+          name: 'empty',
+          type: 'radio',
+          value: '',
+          label: '',
+          checked: type === ''
         }
       ],
       buttons: [
@@ -135,9 +171,30 @@ export class Tab1Page {
           }
         }, {
           text: 'Ok',
+          handler: async () => {
+            const alert = await this.alertController.create({
+              header: 'Create your personalize QR!',
+              inputs: [
+                {
+                  name: 'extention',
+                  type: 'text',
+                  placeholder: 'enter an extention: '
+        
+                },
+              ],
+              buttons: [
+                {
+                  text: 'Cancel',
+                  role: 'cancel',
+                  cssClass: 'secondary',
+                  handler: () => {
+                  }
+                }, {
+                  text: 'Ok',
           handler: (data) => {
             this.myData.push({
-              codes: data.qrData,
+              type: data.checked.type,
+              extention: data.extention,
             });
             this.storage.set('myData', this.myData);
             this.barcodeScanner.encode(this.barcodeScanner.Encode.TEXT_TYPE, this.myData).then((ReplaceSource) => {
@@ -149,6 +206,11 @@ export class Tab1Page {
       ]
     });
     await alert.present();
+  }
+}
+     ]
+  });
+  await alert.present();
   }
 
   openScanner() {
