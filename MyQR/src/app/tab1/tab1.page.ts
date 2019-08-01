@@ -22,17 +22,16 @@ export class Tab1Page {
   password: any;
   key = 'username';
   lock = 'password';
-  base64Image: any;
-  base64Prefix: any;
   OBarcode: any;
   myEncodedData: Array<{}> = [];
   users: Array<{username: any, password: any}> = [];
   barcodes: Array<{code: any, description: any}> = [];
-  myData: Array<{type: any, extention: any}> = [];
-
-  images: Array<{url: any}> = [];
+  type: Array<{type: any}> = [];
+  extention: Array<{extention: any}> = [];
   currentUser: any;
   message: Url;
+  testRadioOpen: boolean;
+  testRadioResult: any;
 
   constructor(
     private barcodeScanner: BarcodeScanner,
@@ -125,8 +124,8 @@ export class Tab1Page {
         {
           name: 'insta',
           type: 'radio',
-          label: 'www.instagram.com',
-          value: 'www.instagram.com',
+          label: 'www.instagram.com/',
+          value: 'www.instagram.com/',
           checked: type === 'insta'
 
         },
@@ -141,16 +140,16 @@ export class Tab1Page {
         {
           name: 'youtube',
           type: 'radio',
-          value: 'www.youtube.com',
-          label: 'www.youtube.com',
+          value: 'www.youtube.com/',
+          label: 'www.youtube.com/',
           checked: type === 'youtube'
 
         },
         {
           name: 'twitter',
           type: 'radio',
-          value: 'www.twitter.com',
-          label: 'www.twitter.com',
+          value: 'www.twitter.com/',
+          label: 'www.twitter.com/',
           checked: type === 'twitter'
 
         },
@@ -171,7 +170,7 @@ export class Tab1Page {
           }
         }, {
           text: 'Ok',
-          handler: async () => {
+          handler: async (data) => {
             const alert = await this.alertController.create({
               header: 'Create your personalize QR!',
               inputs: [
@@ -192,25 +191,34 @@ export class Tab1Page {
                 }, {
                   text: 'Ok',
           handler: (data) => {
-            this.myData.push({
-              type: data.checked.type,
-              extention: data.extention,
+            console.log('Radio data:', data);
+            this.testRadioOpen = false;
+            this.testRadioResult = data;
+            this.type.push({
+              type: this.testRadioResult,
             });
+            /*
             this.storage.set('myData', this.myData);
             this.barcodeScanner.encode(this.barcodeScanner.Encode.TEXT_TYPE, this.myData).then((ReplaceSource) => {
               console.log(ReplaceSource);
               this.myEncodedData = ReplaceSource;
             });
+            */
           }
         }
       ]
     });
-    await alert.present();
+            await alert.present();
+            this.extention = data;
+            this.extention.push({
+      extention: this.testRadioResult,
+    });
   }
+
 }
      ]
   });
-  await alert.present();
+    await alert.present();
   }
 
   openScanner() {
