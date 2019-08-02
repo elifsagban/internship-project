@@ -61,15 +61,12 @@ export class Tab3Page {
     main() {
       this.navController.navigateRoot('tab1');
     }
-  
     async saveData() {
-  
       this.users.push({
         username: this.uname,
         password: this.password
       });
       this.storage.set('users', this.users);
-  
       this.storage.set(this.key, this.uname);
       this.storage.set(this.lock, this.password);
       /*
@@ -78,11 +75,9 @@ export class Tab3Page {
         lastname: this.lastname
       });
       this.storage.set('profile', this.profile);
-  
       this.storage.set(this.name, this.name);
       this.storage.set(this.lastname, this.lastname);
       */
-     
       var checkUser = false;
       this.barcodes.push({
         code: this.code,
@@ -94,7 +89,6 @@ export class Tab3Page {
         codes: this.codes,
       });
       this.storage.set('myData', this.myData);
-  
       this.storage.set(this.codes, this.codes);
 
 

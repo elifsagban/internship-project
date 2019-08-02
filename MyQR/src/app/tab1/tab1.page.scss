@@ -2,6 +2,13 @@
   max-height: 35vh;
   overflow: hidden;
 }
+#img-qr{
+    padding-top: 20px;
+    width:250px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
 .background{
   --background: none;
   background-image: url('../../assets/img/img2.png');
@@ -9,9 +16,6 @@
   background-repeat: no-repeat;
   background-size: cover;
   
-}
-#card{
-  padding-top: 30%;
 }
 #title{
   
