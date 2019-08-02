@@ -4,3 +4,17 @@
     right: 0;
 
 }
+#icon-button{
+    position: absolute;
+    top:50%;
+    right: 0;
+    transform: translateY(-50%);
+  }
+.background{
+    --background: none;
+    background-image: url('../../assets/img/img2.png');
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    
+  }

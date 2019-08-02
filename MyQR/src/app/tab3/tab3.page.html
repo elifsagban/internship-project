@@ -3,10 +3,11 @@
     <ion-title>
       My QR's
     </ion-title>
+    <ion-button (click) = "main()" color="dark" id="icon-button"><ion-icon name="apps" ></ion-icon></ion-button>
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
+<ion-content class="background">
   <p>Generated  QR's: </p>
   <ion-list>
     <ion-item *ngFor="let data of myData, let i = index">{{data.codes}} 

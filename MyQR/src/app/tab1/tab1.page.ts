@@ -2,10 +2,7 @@ import { Component } from '@angular/core';
 import {IonicStorageModule, Storage} from '@ionic/storage';
 import { NavController, AlertController } from '@ionic/angular';
 import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
-import { Base64 } from '@ionic-native/base64/ngx';
-import { Base64ToGallery } from '@ionic-native/base64-to-gallery/ngx';
-import { ImagePicker } from '@ionic-native/image-picker/ngx';
-import { BarcodeScanner } from '@ionic-native/barcode-scanner/ngx';
+import { BarcodeScanner, BarcodeScannerOptions, BarcodeScanResult } from '@ionic-native/barcode-scanner/ngx';
 import { ReplaceSource } from 'webpack-sources';
 import { Url } from 'url';
 
@@ -23,22 +20,27 @@ export class Tab1Page {
   key = 'username';
   lock = 'password';
   OBarcode: any;
-  myEncodedData: Array<{}> = [];
   users: Array<{username: any, password: any}> = [];
-  barcodes: Array<{code: any, description: any}> = [];
-  type: Array<{type: any}> = [];
+  //barcodes: Array<{code: any, description: any}> = [];
+  barcodes = [];
+  qrType: any;
+  qrText: any;
+  myEncodedData: Array<{}> = [];
   extention: Array<{extention: any}> = [];
-  currentUser: any;
-  message: Url;
   testRadioOpen: boolean;
   testRadioResult: any;
+  currentUser: any;
+  message: Url;
+  qrDescription: any;
+  
+  
 
   constructor(
     private barcodeScanner: BarcodeScanner,
     private camera: Camera,
     private storage: Storage,
     public alertController: AlertController,
-    public navController: NavController
+    public navController: NavController,
   ) {
 
       this.OBarcode = false;
@@ -66,6 +68,16 @@ export class Tab1Page {
       });
   }
 
+  reloadBarcodes() {
+    this.storage.get( 'barcodes' ).then((val) => {
+      if (val) {
+          this.barcodes = val;
+        } else {
+          this.barcodes = [];
+        }
+    });
+  }
+
 
   async showAlert(title, subtitle, buttons) {
       const alert = await this.alertController.create({
@@ -81,7 +93,6 @@ export class Tab1Page {
       header,
       message,
       inputs: [
-        
         {
           name: 'description',
           type: 'text',
@@ -107,7 +118,6 @@ export class Tab1Page {
 
     await alert.present();
   }
-  
   logout() {
     this.navController.navigateRoot('login');
   }
@@ -122,43 +132,43 @@ export class Tab1Page {
       header: 'Create your personalize QR!',
       inputs: [
         {
-          name: 'insta',
+          name: 'type',
           type: 'radio',
-          label: 'www.instagram.com/',
-          value: 'www.instagram.com/',
-          checked: type === 'insta'
+          label: 'instagram',
+          value: 'instagram',
+          checked: false
 
         },
         {
-          name: 'face',
+          name: 'type',
           type: 'radio',
-          value: 'www.facebook.com',
-          label: 'www.facebook.com',
-          checked: type === 'face'
+          value: 'facebook',
+          label: 'facebook',
+          checked: false
 
         },
         {
-          name: 'youtube',
+          name: 'type',
           type: 'radio',
-          value: 'www.youtube.com/',
-          label: 'www.youtube.com/',
-          checked: type === 'youtube'
+          value: 'youtube',
+          label: 'youtube',
+          checked: false
 
         },
         {
-          name: 'twitter',
+          name: 'type',
           type: 'radio',
-          value: 'www.twitter.com/',
-          label: 'www.twitter.com/',
-          checked: type === 'twitter'
+          value: 'twitter',
+          label: 'twitter',
+          checked: false
 
         },
         {
-          name: 'empty',
+          name: 'type',
           type: 'radio',
-          value: '',
+          value: 'empty',
           label: '',
-          checked: type === ''
+          checked: true
         }
       ],
       buttons: [
@@ -171,6 +181,7 @@ export class Tab1Page {
         }, {
           text: 'Ok',
           handler: async (data) => {
+            this.qrType = data;
             const alert = await this.alertController.create({
               header: 'Create your personalize QR!',
               inputs: [
@@ -178,7 +189,11 @@ export class Tab1Page {
                   name: 'extention',
                   type: 'text',
                   placeholder: 'enter an extention: '
-        
+                },
+                {
+                  name: 'description',
+                  type: 'text',
+                  placeholder: 'enter an description: '
                 },
               ],
               buttons: [
@@ -190,29 +205,39 @@ export class Tab1Page {
                   }
                 }, {
                   text: 'Ok',
-          handler: (data) => {
-            console.log('Radio data:', data);
-            this.testRadioOpen = false;
-            this.testRadioResult = data;
-            this.type.push({
-              type: this.testRadioResult,
+                  handler: (data) => {
+                    this.qrText = data.extention;
+                    this.qrDescription = data.description;
+                    if (this.qrText !== '') {
+                      var currentQR= {
+                        type: this.qrType,
+                        text: this.qrText
+                      };
+                      var currentQRText = JSON.stringify(currentQR);
+
+                      var currentGenerate={
+                        code: currentQRText,
+                        user: this.currentUser.username,
+                        description: this.qrDescription,
+                        type: 'generated'
+                      };
+
+                      this.barcodes.push(currentGenerate);
+                      this.storage.set('barcodes', this.barcodes);
+
+                      this.barcodeScanner.encode(this.barcodeScanner.Encode.TEXT_TYPE, currentQRText).then((ReplaceSource) => {
+                        this.myEncodedData = ReplaceSource;
+                        this.storage.set('barcodes', currentGenerate);
+                        this.reloadBarcodes();
+                      });
+
+                    }
+
+                  }
+                }
+              ]
             });
-            /*
-            this.storage.set('myData', this.myData);
-            this.barcodeScanner.encode(this.barcodeScanner.Encode.TEXT_TYPE, this.myData).then((ReplaceSource) => {
-              console.log(ReplaceSource);
-              this.myEncodedData = ReplaceSource;
-            });
-            */
-          }
-        }
-      ]
-    });
             await alert.present();
-            this.extention = data;
-            this.extention.push({
-      extention: this.testRadioResult,
-    });
   }
 
 }
@@ -220,25 +245,86 @@ export class Tab1Page {
   });
     await alert.present();
   }
-
   openScanner() {
     this.barcodeScanner.scan().then(barcodeData => {
+
+
       this.OBarcode = this.barcodes.find( (element) => {
         return (element.code === barcodeData.text);
       });
-      if (this.OBarcode) {
 
-        this.showAlert(
-          'barcode: ' + this.OBarcode.code + '<br> Descriptions: ' + this.OBarcode.description,
-          'Your Scanned Barcode',
-          ['OK']
-        );
+      if (this.OBarcode) {
+        if (this.OBarcode.type === 'generated') {
+            const mycode = JSON.parse(this.OBarcode.code);
+            const qrType = mycode.type;
+            const qrText = mycode.text;
+
+            if (qrType === 'facebook') {
+              window.open(
+                'http://fb://page/' + qrText, '_system', 'location=yes'
+              );
+
+            }
+
+            if (qrType === 'twitter') {
+              window.open(
+                'http://twitter://' + qrText, '_system', 'location=yes'
+              );
+
+            }
+
+            if (qrType === 'empty') {
+              this.showAlert('Your QR code: ', qrText , ['ok'] );
+            }
+
+            if (qrType === 'instagram') {
+              window.open(
+                'http://instagram://user?username=' + qrText, '_system', 'location=yes'
+              );
+            }
+
+            if (qrType === 'youtube') {
+              window.open(
+                'https://youtube.com/watch?v=' + qrText, '_system', 'location=yes'
+              );
+
+            }
+
+
+        } else if (this.OBarcode.type === 'scanned') {
+          this.showAlert('Your QR code: '+ this.OBarcode.code , this.OBarcode.description , ['ok'] );
+        }
+
       } else {
-          this.presentAlertPrompt('Your QrCode url: ', barcodeData.text);
+          const currentScanned = {
+            code: this.OBarcode.code,
+            user: this.currentUser.username,
+            description: this.OBarcode.description,
+            type: 'scanned'
+          };
+
+          this.storage.set('barcodes', currentScanned);
+          this.reloadBarcodes();
+
+          this.showAlert(
+            'barcode: ' + this.OBarcode.code + '<br> Descriptions: ' + this.OBarcode.description,
+            'Your Scanned Barcode',
+            ['OK']
+          );
       }
     }).catch(err => {
         console.log('Error', err);
     });
+  }
+  async Warning(header, subHeader, message) {
+    const alert = await this.alertController.create({
+      header,
+      subHeader,
+      message,
+      buttons: ['OK']
+    });
+
+    await alert.present();
   }
 
 }
