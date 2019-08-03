@@ -32,8 +32,6 @@ export class Tab1Page {
   currentUser: any;
   message: Url;
   qrDescription: any;
-  
-  
 
   constructor(
     private barcodeScanner: BarcodeScanner,
@@ -209,13 +207,13 @@ export class Tab1Page {
                     this.qrText = data.extention;
                     this.qrDescription = data.description;
                     if (this.qrText !== '') {
-                      var currentQR= {
+                      const currentQR = {
                         type: this.qrType,
                         text: this.qrText
                       };
-                      var currentQRText = JSON.stringify(currentQR);
+                      const currentQRText = JSON.stringify(currentQR);
 
-                      var currentGenerate={
+                      const currentGenerate = {
                         code: currentQRText,
                         user: this.currentUser.username,
                         description: this.qrDescription,
@@ -230,7 +228,6 @@ export class Tab1Page {
                         this.storage.set('barcodes', currentGenerate);
                         this.reloadBarcodes();
                       });
-
                     }
 
                   }
@@ -263,12 +260,11 @@ export class Tab1Page {
               window.open(
                 'http://fb://page/' + qrText, '_system', 'location=yes'
               );
-
             }
 
             if (qrType === 'twitter') {
               window.open(
-                'http://twitter://' + qrText, '_system', 'location=yes'
+                'https://twitter.com/' + qrText, '_system', 'location=yes'
               );
 
             }
@@ -279,7 +275,7 @@ export class Tab1Page {
 
             if (qrType === 'instagram') {
               window.open(
-                'http://instagram://user?username=' + qrText, '_system', 'location=yes'
+                'https://www.instagram.com/' + qrText, '_system', 'location=yes'
               );
             }
 
@@ -289,8 +285,6 @@ export class Tab1Page {
               );
 
             }
-
-
         } else if (this.OBarcode.type === 'scanned') {
           this.showAlert('Your QR code: '+ this.OBarcode.code , this.OBarcode.description , ['ok'] );
         }
@@ -305,7 +299,6 @@ export class Tab1Page {
 
           this.storage.set('barcodes', currentScanned);
           this.reloadBarcodes();
-
           this.showAlert(
             'barcode: ' + this.OBarcode.code + '<br> Descriptions: ' + this.OBarcode.description,
             'Your Scanned Barcode',
