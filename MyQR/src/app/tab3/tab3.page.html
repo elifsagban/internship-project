@@ -8,16 +8,18 @@
 </ion-header>
 
 <ion-content class="background">
-  <p>Generated  QR's: </p>
-  <ion-list>
-    <ion-item *ngFor="let data of myData, let i = index">{{data.codes}} 
-      <ion-button expand ="block" id="del" (click)="deleteData(i)">Delete</ion-button>
-    </ion-item>
-  </ion-list>
-  <p>Scanned  QR's: </p>
-  <ion-list>
-    <ion-item *ngFor="let code of barcodes, let i = index">{{code.code}} + {{code.description}}
-      <ion-button expand ="block" id="del" (click)="deleteBarcode(i)">Delete</ion-button>
-    </ion-item>
-  </ion-list>
+  <ion-card color="dark">
+    <ion-card-header>
+      Scanned QRs: 
+        <ion-card-title>{{barcodes.currentScanned}}</ion-card-title>
+      </ion-card-header>
+
+</ion-card >
+<ion-card color="dark">
+  <ion-card-header>
+    Generated QRs: 
+      <ion-card-title>{{barcodes.currentGenerate}}</ion-card-title>
+    </ion-card-header>
+
+</ion-card >
 </ion-content>
