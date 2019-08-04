@@ -30,9 +30,6 @@ export class Tab3Page {
   password: any;
   profile: any;
   currentGenerate: any;
-  
-  
-
   constructor(
     private barcodeScanner: BarcodeScanner,
     private camera: Camera,
@@ -65,15 +62,13 @@ export class Tab3Page {
           this.uname = val;
       });
   }
-  
   async saveData() {
-  
     this.users.push({
       username: this.uname,
       password: this.password
     });
     this.storage.set('users', this.users);
-    var checkUser = false;
+    let checkUser = false;
     this.storage.set('barcodes', this.currentGenerate);
     this.storage.set('barcodes', this.currentScanned);
 
@@ -100,7 +95,7 @@ export class Tab3Page {
   }
 
   lock(lock: any, password: any) {
-    throw new Error("Method not implemented.");
+    throw new Error('Method not implemented.');
   }
 
   reloadBarcodes() {
