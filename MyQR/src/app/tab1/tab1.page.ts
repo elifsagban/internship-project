@@ -15,23 +15,6 @@ import { Url } from 'url';
   styleUrls: ['tab1.page.scss']
 })
 export class Tab1Page {
-  uname: string;
-  password: any;
-  key = 'username';
-  lock = 'password';
-  OBarcode: any;
-  users: Array<{username: any, password: any}> = [];
-  //barcodes: Array<{code: any, description: any}> = [];
-  barcodes = [];
-  qrType: any;
-  qrText: any;
-  myEncodedData: Array<{}> = [];
-  extention: Array<{extention: any}> = [];
-  testRadioOpen: boolean;
-  testRadioResult: any;
-  currentUser: any;
-  message: Url;
-  qrDescription: any;
 
   constructor(
     private barcodeScanner: BarcodeScanner,
@@ -65,6 +48,24 @@ export class Tab1Page {
           this.uname = val;
       });
   }
+  uname: string;
+  password: any;
+  key = 'username';
+  lock = 'password';
+  OBarcode: any;
+  users: Array<{username: any, password: any}> = [];
+  //barcodes: Array<{code: any, description: any}> = [];
+  barcodes = [];
+  qrType: any;
+  qrText: any;
+  myEncodedData: Array<{}> = [];
+  extention: Array<{extention: any}> = [];
+  testRadioOpen: boolean;
+  testRadioResult: any;
+  currentUser: any;
+  message: Url;
+  qrDescription: any;
+  option: BarcodeScannerOptions;
 
   reloadBarcodes() {
     this.storage.get( 'barcodes' ).then((val) => {
@@ -219,11 +220,11 @@ export class Tab1Page {
                         description: this.qrDescription,
                         type: 'generated'
                       };
-
+                      
                       this.barcodes.push(currentGenerate);
                       this.storage.set('barcodes', this.barcodes);
 
-                      this.barcodeScanner.encode(this.barcodeScanner.Encode.TEXT_TYPE, currentQRText).then((ReplaceSource) => {
+                      this.barcodeScanner.encode( this.barcodeScanner.Encode.TEXT_TYPE, currentQRText).then((ReplaceSource) => {
                         this.myEncodedData = ReplaceSource;
                         this.storage.set('barcodes', currentGenerate);
                         this.reloadBarcodes();
@@ -243,8 +244,12 @@ export class Tab1Page {
     await alert.present();
   }
   openScanner() {
-    this.barcodeScanner.scan().then(barcodeData => {
+    this.option = {
+      showTorchButton: true,
+      showFlipCameraButton: true
+    },
 
+    this.barcodeScanner.scan(this.option).then(barcodeData => {
 
       this.OBarcode = this.barcodes.find( (element) => {
         return (element.code === barcodeData.text);
