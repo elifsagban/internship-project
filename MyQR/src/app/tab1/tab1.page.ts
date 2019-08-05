@@ -6,9 +6,6 @@ import { BarcodeScanner, BarcodeScannerOptions, BarcodeScanResult } from '@ionic
 import { ReplaceSource } from 'webpack-sources';
 import { Url } from 'url';
 
-
-
-
 @Component({
   selector: 'app-tab1',
   templateUrl: 'tab1.page.html',
@@ -54,7 +51,7 @@ export class Tab1Page {
   lock = 'password';
   OBarcode: any;
   users: Array<{username: any, password: any}> = [];
-  //barcodes: Array<{code: any, description: any}> = [];
+  // barcodes: Array<{code: any, description: any}> = [];
   barcodes = [];
   qrType: any;
   qrText: any;
@@ -67,6 +64,7 @@ export class Tab1Page {
   qrDescription: any;
   option: BarcodeScannerOptions;
 
+  // reloading values of barcodes into val
   reloadBarcodes() {
     this.storage.get( 'barcodes' ).then((val) => {
       if (val) {
@@ -86,7 +84,7 @@ export class Tab1Page {
         });
       await alert.present();
   }
-
+/*
   async presentAlertPrompt(header, message) {
     const alert = await this.alertController.create({
       header,
@@ -117,6 +115,8 @@ export class Tab1Page {
 
     await alert.present();
   }
+  */
+// Functions for redirection to pages with buttons
   logout() {
     this.navController.navigateRoot('login');
   }
@@ -126,6 +126,7 @@ export class Tab1Page {
   myQRs() {
     this.navController.navigateRoot('tab3');
   }
+  // Encoded QR part : Getting user input with Radio Alert and within Alert with inputs
   async generateQR(type) {
     const alert = await this.alertController.create({
       header: 'Create your personalize QR!',
@@ -178,6 +179,7 @@ export class Tab1Page {
           handler: () => {
           }
         }, {
+          // when user click okey, another alert will show
           text: 'Ok',
           handler: async (data) => {
             this.qrType = data;
@@ -220,29 +222,28 @@ export class Tab1Page {
                         description: this.qrDescription,
                         type: 'generated'
                       };
-                      
                       this.barcodes.push(currentGenerate);
                       this.storage.set('barcodes', this.barcodes);
-
+                      // this code encodes qr
                       this.barcodeScanner.encode( this.barcodeScanner.Encode.TEXT_TYPE, currentQRText).then((ReplaceSource) => {
                         this.myEncodedData = ReplaceSource;
                         this.storage.set('barcodes', currentGenerate);
                         this.reloadBarcodes();
                       });
+                      this.Warning(currentQR.type + currentQR.text, '', '');
                     }
-
                   }
                 }
               ]
             });
             await alert.present();
   }
-
 }
      ]
   });
     await alert.present();
   }
+  // Scanning QR Part
   openScanner() {
     this.option = {
       showTorchButton: true,
@@ -260,10 +261,12 @@ export class Tab1Page {
             const mycode = JSON.parse(this.OBarcode.code);
             const qrType = mycode.type;
             const qrText = mycode.text;
-
+/* If scanned QR related with the following codes, this app will open that.
+   If those apps installed in the user's phone, app will open.
+   Otherwise, Social media pages open with browser.  */
             if (qrType === 'facebook') {
               window.open(
-                'http://fb://page/' + qrText, '_system', 'location=yes'
+                'https://www.facebook.com/' + qrText, '_system', 'location=yes'
               );
             }
 
@@ -288,6 +291,7 @@ export class Tab1Page {
               window.open(
                 'https://youtube.com/watch?v=' + qrText, '_system', 'location=yes'
               );
+              this.Warning(qrType + qrText, '', '');
 
             }
         } else if (this.OBarcode.type === 'scanned') {
