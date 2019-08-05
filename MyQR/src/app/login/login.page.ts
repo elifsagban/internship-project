@@ -35,7 +35,7 @@ export class LoginPage {
   });
 
   */
-
+// getting users value into val
     this.storage.get( 'users' ).then((val) => {
         if (val) {
           this.users = val;
@@ -60,9 +60,9 @@ export class LoginPage {
     */
   }
 
-
+// Checking if user registered
   login() {
-    var checkUser = false;
+    let checkUser = false;
     this.users.filter( element => {
       if (element.username === this.uname && element.password === this.password) {
         checkUser = true;
@@ -74,7 +74,7 @@ export class LoginPage {
         };
       }
     });
-
+//
     if (checkUser) {
         this.storage.set('currentUser', this.currentUser );
         this.navController.navigateRoot('tab1');
@@ -82,9 +82,9 @@ export class LoginPage {
          this.Warning('Warning!', 'Please register!', '');
     }
   }
-
+// Register part : Getting user input with an alert and storing the data
   async register() {
-    var checkUserName = true;
+    let checkUserName = true;
 
     const alert = await this.alertController.create({
       header: 'Please Register.',
@@ -120,6 +120,7 @@ export class LoginPage {
           }
         }, {
           text: 'Ok',
+          // getting inputs without space
           handler: (data)  => {
             const newUserName = data.username.replace(' ', '');
             const newPassword = data.password.replace(' ', '');
@@ -133,6 +134,7 @@ export class LoginPage {
             this.storage.set(this.lastname, this.lastname);
             this.storage.set('users', this.users);
             */
+           // if user don't enter anything, not allow to store
             if (newUserName === '' && newPassword === '') {
               this.register();
               this.Warning('Warning', 'Please enter username ', 'Please fill the blanks. ');
@@ -142,7 +144,7 @@ export class LoginPage {
                   checkUserName = false;
                 }
               });
-
+              // usernames should be unique to seperate users
               if (!checkUserName) {
                 this.register();
                 this.Warning('Warning', 'Please enter another username ', 'Please fill the blanks. ');
