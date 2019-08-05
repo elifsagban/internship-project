@@ -12,7 +12,24 @@ import { Url } from 'url';
   styleUrls: ['tab1.page.scss']
 })
 export class Tab1Page {
-
+  uname: string;
+  password: any;
+  key = 'username';
+  lock = 'password';
+  OBarcode: any;
+  users: Array<{username: any, password: any}> = [];
+  // barcodes: Array<{code: any, description: any}> = [];
+  barcodes = [];
+  qrType: any;
+  qrText: any;
+  myEncodedData: Array<{}> = [];
+  extention: Array<{extention: any}> = [];
+  testRadioOpen: boolean;
+  testRadioResult: any;
+  currentUser: any;
+  message: Url;
+  qrDescription: any;
+  option: BarcodeScannerOptions;
   constructor(
     private barcodeScanner: BarcodeScanner,
     private camera: Camera,
@@ -45,24 +62,7 @@ export class Tab1Page {
           this.uname = val;
       });
   }
-  uname: string;
-  password: any;
-  key = 'username';
-  lock = 'password';
-  OBarcode: any;
-  users: Array<{username: any, password: any}> = [];
-  // barcodes: Array<{code: any, description: any}> = [];
-  barcodes = [];
-  qrType: any;
-  qrText: any;
-  myEncodedData: Array<{}> = [];
-  extention: Array<{extention: any}> = [];
-  testRadioOpen: boolean;
-  testRadioResult: any;
-  currentUser: any;
-  message: Url;
-  qrDescription: any;
-  option: BarcodeScannerOptions;
+
 
   // reloading values of barcodes into val
   reloadBarcodes() {
@@ -215,7 +215,6 @@ export class Tab1Page {
                         text: this.qrText
                       };
                       const currentQRText = JSON.stringify(currentQR);
-
                       const currentGenerate = {
                         code: currentQRText,
                         user: this.currentUser.username,
@@ -224,6 +223,7 @@ export class Tab1Page {
                       };
                       this.barcodes.push(currentGenerate);
                       this.storage.set('barcodes', this.barcodes);
+
                       // this code encodes qr
                       this.barcodeScanner.encode( this.barcodeScanner.Encode.TEXT_TYPE, currentQRText).then((ReplaceSource) => {
                         this.myEncodedData = ReplaceSource;
@@ -244,14 +244,13 @@ export class Tab1Page {
     await alert.present();
   }
   // Scanning QR Part
-  openScanner() {
+  async openScanner() {
     this.option = {
       showTorchButton: true,
       showFlipCameraButton: true
     },
 
-    this.barcodeScanner.scan(this.option).then(barcodeData => {
-
+    this.barcodeScanner.scan(this.option).then(async barcodeData => {
       this.OBarcode = this.barcodes.find( (element) => {
         return (element.code === barcodeData.text);
       });
@@ -261,9 +260,9 @@ export class Tab1Page {
             const mycode = JSON.parse(this.OBarcode.code);
             const qrType = mycode.type;
             const qrText = mycode.text;
-/* If scanned QR related with the following codes, this app will open that.
-   If those apps installed in the user's phone, app will open.
-   Otherwise, Social media pages open with browser.  */
+            /* If scanned QR related with the following codes, this app will open that.
+              If those apps installed in the user's phone, app will open.
+              Otherwise, Social media pages open with browser.  */
             if (qrType === 'facebook') {
               window.open(
                 'https://www.facebook.com/' + qrText, '_system', 'location=yes'
@@ -295,27 +294,56 @@ export class Tab1Page {
 
             }
         } else if (this.OBarcode.type === 'scanned') {
-          this.showAlert('Your QR code: '+ this.OBarcode.code , this.OBarcode.description , ['ok'] );
+          this.showAlert('Your QR code: ' + this.OBarcode.code , this.OBarcode.description , ['ok'] );
         }
-
       } else {
-          const currentScanned = {
-            code: this.OBarcode.code,
-            user: this.currentUser.username,
-            description: this.OBarcode.description,
-            type: 'scanned'
-          };
+        const alert2 = await this.alertController.create({
+          header: 'Enter your description: ',
+          inputs: [
+            {
+              name: 'description',
+              type: 'text',
+              placeholder: 'enter an description: '
+            },
+          ],
+          buttons: [
+            {
+              text: 'Cancel',
+              role: 'cancel',
+              cssClass: 'secondary',
+              handler: () => {
+              }
+            }, {
+              text: 'Ok',
+              handler: (data) => {
+                const scDescription = data.description;
+                if (this.qrText !== '') {
 
-          this.storage.set('barcodes', currentScanned);
-          this.reloadBarcodes();
-          this.showAlert(
-            'barcode: ' + this.OBarcode.code + '<br> Descriptions: ' + this.OBarcode.description,
-            'Your Scanned Barcode',
-            ['OK']
-          );
+                  const currentScanned = {
+                    code: barcodeData.text,
+                    user: this.currentUser.username,
+                    description: scDescription,
+                    type: 'scanned'
+                  };
+
+                  this.barcodes.push(currentScanned);
+                  this.storage.set('barcodes', this.barcodes);
+                  this.reloadBarcodes();
+                  this.showAlert(
+                    'barcode: ' + this.OBarcode.code + '<br> Descriptions: ' + this.OBarcode.description,
+                    'Your Scanned Barcode',
+                    ['OK']
+                  );
+                }
+              }
+            }
+          ]
+        });
+        await alert2.present();
       }
     }).catch(err => {
         console.log('Error', err);
+        this.Warning('Error', '', '');
     });
   }
   async Warning(header, subHeader, message) {
