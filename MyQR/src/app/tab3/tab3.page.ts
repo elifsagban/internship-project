@@ -32,6 +32,9 @@ export class Tab3Page {
   currentGenerate: any;
   option: BarcodeScannerOptions;
   myEncodedData: any;
+  scanned: [];
+  generated: [];
+
   constructor(
     private barcodeScanner: BarcodeScanner,
     private camera: Camera,
@@ -45,7 +48,7 @@ export class Tab3Page {
       this.storage.get( 'currentUser' ).then((val) => {
           if (val) {
             this.currentUser = val;
-            console.log(this.currentUser.username);
+            // console.log(this.currentUser.username);
           } else {
             this.currentUser = [];
           }
@@ -55,14 +58,27 @@ export class Tab3Page {
       this.storage.get( 'barcodes' ).then((val) => {
         if (val) {
             this.barcodes = val;
+            this.generated = this.barcodes.filter( element => {
+              return element.type === 'generated' ;
+            });
+            this.scanned = this.barcodes.filter( element => {
+              return element.type === 'scanned' ;
+            });
+
+
           } else {
             this.barcodes = [];
           }
       });
+  }
 
-      this.storage.get(this.key).then((val) => {
-          this.uname = val;
-      });
+
+  showQR(code){
+    // this code encodes qr
+    this.barcodeScanner.encode( this.barcodeScanner.Encode.TEXT_TYPE, code).then((ReplaceSource) => {
+      this.myEncodedData = ReplaceSource;
+      this.reloadBarcodes();
+    });
   }
   async showAlert(title, subtitle, buttons) {
     const alert = await this.alertController.create({
@@ -72,6 +88,8 @@ export class Tab3Page {
       });
     await alert.present();
 }
+
+/*
 async generateQR(type) {
   const alert = await this.alertController.create({
     header: 'Create your personalize QR!',
@@ -291,6 +309,8 @@ async generateQR(type) {
 
     });
   }
+
+  */
 
   lock(lock: any, password: any) {
     throw new Error('Method not implemented.');

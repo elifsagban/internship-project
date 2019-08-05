@@ -10,16 +10,23 @@
 <ion-content class="background">
   <ion-card color="dark">
     <ion-card-header>
-      Scanned QRs: 
-        <ion-card-title>{{qrType}},{{qrText}}</ion-card-title>
-      </ion-card-header>
+      Scanned QRs
+    </ion-card-header>
+    <ion-card-content>
+      <ion-list>
+        <ion-item *ngFor=" let item of scanned " (click)="showQR(item.code)"> {{item.description}}</ion-item>
+      </ion-list>
+    </ion-card-content>
 
 </ion-card >
 <ion-card color="dark">
   <ion-card-header>
-    Generated QRs: 
-      <ion-card-title></ion-card-title>
-    </ion-card-header>
-
+    Generated QRs
+  </ion-card-header>
+  <ion-card-content>
+      <ion-list>
+        <ion-item *ngFor=" let item of generated " (click)="showQR(item.code)"> {{item.description}}</ion-item>
+      </ion-list>
+  </ion-card-content>
 </ion-card >
 </ion-content>
