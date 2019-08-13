@@ -8,24 +8,28 @@
 </ion-header>
 
 <ion-content class="background">
-  <ion-card color="dark">
-    <ion-card-header>
+  <ion-card id="card">
+    <ion-card-header color="dark">
       Scanned QRs
     </ion-card-header>
-    <ion-card-content>
-      <ion-list>
-        <ion-item *ngFor=" let item of scanned " (click)="showQR(item.code)"> {{item.description}}</ion-item>
+    <ion-card-content >
+      <ion-list >
+        <ion-item  *ngFor=" let item of scanned "> {{item.description}}
+        <ion-button color ="dark" id="show" (click)="showQR(item.code)">Show</ion-button>
+        </ion-item>
       </ion-list>
     </ion-card-content>
 
 </ion-card >
-<ion-card color="dark">
-  <ion-card-header>
+<ion-card id="card">
+  <ion-card-header color="dark">
     Generated QRs
   </ion-card-header>
   <ion-card-content>
       <ion-list>
-        <ion-item *ngFor=" let item of generated " (click)="showQR(item.code)"> {{item.description}}</ion-item>
+        <ion-item *ngFor=" let item of generated " > {{item.description}}
+          <ion-button color ="dark" id="show" (click)="showQR(item.code)">Show</ion-button>
+        </ion-item>
       </ion-list>
   </ion-card-content>
 </ion-card >

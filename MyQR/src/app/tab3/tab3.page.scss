@@ -1,4 +1,6 @@
-
+#card{
+  background-color: #ffffff;
+}
 #del { 
     position: absolute;
     right: 0;
@@ -9,6 +11,12 @@
     top:50%;
     right: 0;
     transform: translateY(-50%);
+  }
+  #show{
+    position: absolute;
+    top:50%;
+    right: 0;
+    transform: translateY(-50%);                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     
   }
 .background{
     --background: none;

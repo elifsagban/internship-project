@@ -4,19 +4,19 @@
       Main Page
       <ion-icon name="apps" size="large"></ion-icon>
     </ion-title>
-    <ion-button (click) = "logout()" color="dark" id="button"><ion-icon name="log-out" ></ion-icon></ion-button>
+      <ion-button (click) = "logout()" color="dark" id="button"><ion-icon name="log-out" ></ion-icon></ion-button>
   </ion-toolbar>
 </ion-header>
 
 <ion-content class="background">
     <img src="../../assets/img/qrIcon.png" alt="QR Logo" id="img-qr"/> 
-    <div id="card">
-  <ion-card  color="none">
-            <ion-button expand ="block"  (click) = "openScanner()" color="dark"> Read QR</ion-button>
-            <ion-button expand ="block" (click) = "generateQR()"  color="dark" > Generate QR</ion-button>
-            <ion-button expand ="block" (click) = "myProfile()" color="dark"> My Profile</ion-button>
-            <ion-button expand ="block" (click)= "myQRs()" color="dark"> My QRs</ion-button>  
-  </ion-card>
-</div>
+      <div id="card">
+        <ion-card  color="none">
+          <ion-button expand ="block"  (click) = "openScanner()" color="dark"> Read QR</ion-button>
+          <ion-button expand ="block" (click) = "generateQR()"  color="dark" > Generate QR</ion-button>
+          <ion-button expand ="block" (click) = "myProfile()" color="dark"> My Profile</ion-button>
+          <ion-button expand ="block" (click)= "myQRs()" color="dark"> My QRs</ion-button>  
+        </ion-card>
+      </div>
 </ion-content>
 
